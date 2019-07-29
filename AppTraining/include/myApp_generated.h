@@ -212,8 +212,7 @@ struct _MyExampleComAppTrainningAlarmClockIface
     gint arg_min);
 
   void (*ring_alarm) (
-    MyExampleComAppTrainningAlarmClock *object,
-    const gchar *arg_ring);
+    MyExampleComAppTrainningAlarmClock *object);
 
 };
 
@@ -248,8 +247,7 @@ void my_example_com_app_trainning_alarm_clock_complete_set_alarm_status (
 
 /* D-Bus signal emissions functions: */
 void my_example_com_app_trainning_alarm_clock_emit_ring_alarm (
-    MyExampleComAppTrainningAlarmClock *object,
-    const gchar *arg_ring);
+    MyExampleComAppTrainningAlarmClock *object);
 
 
 
