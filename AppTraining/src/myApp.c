@@ -83,13 +83,14 @@ void setAlarmStatus(MyExampleComAppTrainningAlarmClock *alarmClockInterface, GDB
 	else
 		strcpy(return_msg, "Alarm status: Unknow");
 	my_example_com_app_trainning_alarm_clock_complete_set_alarm_status(alarmClockInterface, invocation, return_msg);
+	printf("status= %d" , status);
 	free(return_msg);
 }
 
 void getAlarmStatus(MyExampleComAppTrainningAlarmClock *alarmClockInterface, GDBusMethodInvocation *invocation)
 {
 	char *return_msg = (char *) malloc(100);
-	if (alarm_status)
+	if (alarm_status == 1)
 	{
 		strcpy(return_msg, "Alarm is set");
 	}
@@ -138,16 +139,31 @@ static void bus_acquired(GDBusConnection *connection, const gchar *name, gpointe
 	printf("Sccesfully aquired bus: %s\n",name);
 }
 
+void *signal_function()
+{
+
+	if (alarm_status == 1 )	//alarm is set
+	{
+		my_example_com_app_trainning_alarm_clock_emit_ring_alarm(proxy);
+	}
+	return NULL;
+}
+
 int main()
 {
 	guint owner_id;
 	GMainLoop *loop;
 	owner_id = g_bus_own_name(G_BUS_TYPE_SYSTEM, "com.AppTrainning.AlarmClock", G_BUS_NAME_OWNER_FLAGS_NONE, bus_acquired, name_acquired, name_lost, NULL, NULL);
 
+	pthread_t thread;
+	pthread_create(&thread, NULL, signal_function, NULL);
+
 	loop = g_main_loop_new (NULL, FALSE);
 
 	g_main_loop_run (loop);
-	sleep(3);
+	pthread_join (thread, NULL);
+
 	g_bus_unown_name (owner_id);
+
 	return 0;
 }

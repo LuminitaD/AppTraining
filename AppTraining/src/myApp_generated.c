@@ -1256,29 +1256,12 @@ static const _ExtendedGDBusMethodInfo * const _my_example_com_app_trainning_alar
   NULL
 };
 
-static const _ExtendedGDBusArgInfo _my_example_com_app_trainning_alarm_clock_signal_info_ring_alarm_ARG_ring =
-{
-  {
-    -1,
-    (gchar *) "ring",
-    (gchar *) "s",
-    NULL
-  },
-  FALSE
-};
-
-static const _ExtendedGDBusArgInfo * const _my_example_com_app_trainning_alarm_clock_signal_info_ring_alarm_ARG_pointers[] =
-{
-  &_my_example_com_app_trainning_alarm_clock_signal_info_ring_alarm_ARG_ring,
-  NULL
-};
-
 static const _ExtendedGDBusSignalInfo _my_example_com_app_trainning_alarm_clock_signal_info_ring_alarm =
 {
   {
     -1,
     (gchar *) "ringAlarm",
-    (GDBusArgInfo **) &_my_example_com_app_trainning_alarm_clock_signal_info_ring_alarm_ARG_pointers,
+    NULL,
     NULL
   },
   "ring-alarm"
@@ -1457,7 +1440,6 @@ my_example_com_app_trainning_alarm_clock_default_init (MyExampleComAppTrainningA
   /**
    * MyExampleComAppTrainningAlarmClock::ring-alarm:
    * @object: A #MyExampleComAppTrainningAlarmClock.
-   * @arg_ring: Argument.
    *
    * On the client-side, this signal is emitted whenever the D-Bus signal <link linkend="gdbus-signal-com-AppTrainning-AlarmClock.ringAlarm">"ringAlarm"</link> is received.
    *
@@ -1471,23 +1453,21 @@ my_example_com_app_trainning_alarm_clock_default_init (MyExampleComAppTrainningA
     NULL,
     g_cclosure_marshal_generic,
     G_TYPE_NONE,
-    1, G_TYPE_STRING);
+    0);
 
 }
 
 /**
  * my_example_com_app_trainning_alarm_clock_emit_ring_alarm:
  * @object: A #MyExampleComAppTrainningAlarmClock.
- * @arg_ring: Argument to pass with the signal.
  *
  * Emits the <link linkend="gdbus-signal-com-AppTrainning-AlarmClock.ringAlarm">"ringAlarm"</link> D-Bus signal.
  */
 void
 my_example_com_app_trainning_alarm_clock_emit_ring_alarm (
-    MyExampleComAppTrainningAlarmClock *object,
-    const gchar *arg_ring)
+    MyExampleComAppTrainningAlarmClock *object)
 {
-  g_signal_emit_by_name (object, "ring-alarm", arg_ring);
+  g_signal_emit_by_name (object, "ring-alarm");
 }
 
 /**
@@ -2553,8 +2533,7 @@ my_example_com_app_trainning_alarm_clock_skeleton_dbus_interface_flush (GDBusInt
 
 static void
 _my_example_com_app_trainning_alarm_clock_on_signal_ring_alarm (
-    MyExampleComAppTrainningAlarmClock *object,
-    const gchar *arg_ring)
+    MyExampleComAppTrainningAlarmClock *object)
 {
   MyExampleComAppTrainningAlarmClockSkeleton *skeleton = MY_EXAMPLE_COM_APP_TRAINNING_ALARM_CLOCK_SKELETON (object);
 
@@ -2562,8 +2541,7 @@ _my_example_com_app_trainning_alarm_clock_on_signal_ring_alarm (
   GVariant   *signal_variant;
   connections = g_dbus_interface_skeleton_get_connections (G_DBUS_INTERFACE_SKELETON (skeleton));
 
-  signal_variant = g_variant_ref_sink (g_variant_new ("(s)",
-                   arg_ring));
+  signal_variant = g_variant_ref_sink (g_variant_new ("()"));
   for (l = connections; l != NULL; l = l->next)
     {
       GDBusConnection *connection = l->data;
