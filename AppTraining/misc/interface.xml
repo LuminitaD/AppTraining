@@ -36,7 +36,6 @@
 		</method>
 
 		<signal name="ringAlarm">
-			<arg  name="ring" type="s" />
 		</signal>
 
 	</interface>
