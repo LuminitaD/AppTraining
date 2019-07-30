@@ -6,7 +6,6 @@ bool theCallBack()
 	return 1;
 }
 
-//Catalin was here
 void* menu(void * data)
 {
 	int option;
